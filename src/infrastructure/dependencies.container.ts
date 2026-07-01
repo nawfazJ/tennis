@@ -1,0 +1,34 @@
+import type { Player } from '../domain/player';
+import {
+  getBestPlayersHandler,
+  type GetBestPlayersHandler,
+} from '../application/get-best-players/get-best-players.handler';
+import { inMemoryPlayerRepository } from './repositories/in-memory-player.repository';
+import type { Logger } from './logger/logger.port';
+import { createPinoLogger } from './logger/pino-logger.adapter';
+
+type Dependencies = {
+  logger: Logger;
+  getBestPlayersHandler: GetBestPlayersHandler;
+};
+
+const createRepositories = (players: Player[]) => ({
+  playerRepository: inMemoryPlayerRepository,
+});
+
+const createHandlers = (repositories: ReturnType<typeof createRepositories>) => ({
+  getBestPlayersHandler: getBestPlayersHandler(repositories.playerRepository),
+});
+
+const createDependenciesContainer = (players: Player[] = []): Dependencies => {
+  const repositories = createRepositories(players);
+  const handlers = createHandlers(repositories);
+
+  return {
+    logger: createPinoLogger(),
+    getBestPlayersHandler: handlers.getBestPlayersHandler,
+  };
+};
+
+export { createDependenciesContainer };
+export type { Dependencies };
