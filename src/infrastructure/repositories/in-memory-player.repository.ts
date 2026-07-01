@@ -1,6 +1,6 @@
 import type { PlayerRepository } from '../../domain/player.repository';
 import { type RawPlayer, toPlayer } from './player.mapper';
-import headToHead from './data/headtohead.json';
+import headToHead from './data/headTohead.json';
 
 const rawPlayers = headToHead.players as RawPlayer[];
 
