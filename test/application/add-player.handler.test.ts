@@ -111,4 +111,33 @@ describe('addPlayerHandler', () => {
       });
     },
   );
+
+  it('returns a PlayerAlreadyExists error when a player with the same name already exists', async () => {
+    // Arrange
+    const existingPlayers = [
+      {
+        id: 1,
+        firstname: validCommand.firstname,
+        lastname: validCommand.lastname,
+        shortname: 'X',
+        sex: 'M' as const,
+        country: { code: 'FRA', picture: '' },
+        picture: '',
+        stats: { rank: 1, points: 0, weight: 80000, height: 180, age: 25, last: [] as (0 | 1)[] },
+      },
+    ];
+    const repository = fakeRepository(existingPlayers);
+    const handler = addPlayerHandler(repository);
+
+    // Act
+    const result = await handler(validCommand);
+
+    // Assert
+    assert(Result.isFailure(result));
+    expect(result.error).toEqual({
+      type: 'PlayerAlreadyExists',
+      firstname: validCommand.firstname,
+      lastname: validCommand.lastname,
+    });
+  });
 });

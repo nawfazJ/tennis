@@ -3,6 +3,7 @@ import type { DomainError } from '../../domain/errors/error.base';
 import { createPlayer, Player, PlayerInput } from '../../domain/player';
 import { Result } from '../../shared-kernel/fp/result-pattern/result';
 import type { AddPlayerCommand } from './add-player.command';
+import { playerAlreadyExists } from '../../domain/errors/player-already-exists.error';
 
 type AddPlayerHandler = (command: AddPlayerCommand) => Promise<Result<DomainError, Player>>;
 
@@ -26,10 +27,18 @@ const toPlayerInput = (command: AddPlayerCommand): PlayerInput => ({
   },
 });
 
+const alreadyExists = (players: Player[], firstname: string, lastname: string): boolean =>
+  players.some((player) => player.firstname === firstname && player.lastname === lastname);
+
 const addPlayerHandler =
   (playerRepository: PlayerRepository): AddPlayerHandler =>
   async (command) => {
     const existingPlayers = await playerRepository.findAll();
+
+    if (alreadyExists(existingPlayers, command.firstname, command.lastname)) {
+      return Result.failure(playerAlreadyExists(command.firstname, command.lastname));
+    }
+
     const id = nextId(existingPlayers);
 
     const result = createPlayer(toPlayerInput(command), id);

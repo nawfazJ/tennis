@@ -75,4 +75,23 @@ describe('POST /players', () => {
     expect(response.body.error).toBe('InvalidRequestBody');
     expect(addPlayerHandler).not.toHaveBeenCalled();
   });
+
+  it('returns 409 when a player with the same name already exists', async () => {
+    // Arrange
+    const addPlayerHandler = vi.fn().mockResolvedValue(
+      Result.failure({
+        type: 'PlayerAlreadyExists',
+        firstname: 'Carlos',
+        lastname: 'Alcaraz',
+      }),
+    );
+    const app = createApp(makeTestDependencies(addPlayerHandler));
+
+    // Act
+    const response = await request(app).post('/players').send(validCommand);
+
+    // Assert
+    expect(response.status).toBe(409);
+    expect(response.body.error).toBe('PlayerAlreadyExists');
+  });
 });
