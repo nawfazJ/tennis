@@ -7,11 +7,13 @@ import { inMemoryPlayerRepository } from './repositories/in-memory-player.reposi
 import type { Logger } from './logger/logger.port';
 import { createPinoLogger } from './logger/pino-logger.adapter';
 import { getPlayerByIdHandler, GetPlayerByIdHandler } from '../application/get-player/get-player';
+import { getPlayersStatsHandler, GetPlayersStatsHandler, } from '../application/get-players-stats.handler';
 
 type Dependencies = {
   logger: Logger;
   getBestPlayersHandler: GetBestPlayersHandler;
   getPlayerByIdHandler: GetPlayerByIdHandler;
+  getPlayersStatsHandler: GetPlayersStatsHandler;
 };
 
 const createRepositories = (players: Player[]) => ({
@@ -21,6 +23,7 @@ const createRepositories = (players: Player[]) => ({
 const createHandlers = (repositories: ReturnType<typeof createRepositories>) => ({
   getBestPlayersHandler: getBestPlayersHandler(repositories.playerRepository),
   getPlayerByIdHandler: getPlayerByIdHandler(repositories.playerRepository),
+  getPlayersStatsHandler: getPlayersStatsHandler(repositories.playerRepository),
 });
 
 const createDependenciesContainer = (players: Player[] = []): Dependencies => {
@@ -31,6 +34,7 @@ const createDependenciesContainer = (players: Player[] = []): Dependencies => {
     logger: createPinoLogger(),
     getBestPlayersHandler: handlers.getBestPlayersHandler,
     getPlayerByIdHandler: handlers.getPlayerByIdHandler,
+    getPlayersStatsHandler: handlers.getPlayersStatsHandler,
   };
 };
 
