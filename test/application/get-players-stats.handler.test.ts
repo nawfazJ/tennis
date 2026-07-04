@@ -2,7 +2,7 @@ import { assert, describe, expect, it } from 'vitest';
 import { Result } from '../../src/shared-kernel/fp/result-pattern/result';
 import type { PlayerRepository } from '../../src/domain/player.repository';
 import { Player } from '../../src/domain/player';
-import { getPlayersStatsHandler } from '../../src/application/get-players-stats.handler';
+import { getPlayersStatsHandler } from '../../src/application/get-players-stats/get-players-stats.handler';
 
 const makePlayer = (overrides: Partial<Player> & { id: number }): Player => ({
   firstname: `Player${overrides.id}`,

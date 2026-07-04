@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
 import { Result } from '../../shared-kernel/fp/result-pattern/result';
-import { GetPlayersStatsHandler } from '../../application/get-players-stats.handler';
+import { GetPlayersStatsHandler } from '../../application/get-players-stats/get-players-stats.handler';
 
 const getPlayersStatsController =
   (getPlayersStatsHandler: GetPlayersStatsHandler) => async (_req: Request, res: Response) => {

@@ -7,7 +7,10 @@ import { inMemoryPlayerRepository } from './repositories/in-memory-player.reposi
 import type { Logger } from './logger/logger.port';
 import { createPinoLogger } from './logger/pino-logger.adapter';
 import { getPlayerByIdHandler, GetPlayerByIdHandler } from '../application/get-player/get-player';
-import { getPlayersStatsHandler, GetPlayersStatsHandler, } from '../application/get-players-stats.handler';
+import {
+  getPlayersStatsHandler,
+  GetPlayersStatsHandler,
+} from '../application/get-players-stats/get-players-stats.handler';
 import { addPlayerHandler, AddPlayerHandler } from '../application/add-player/add-player.handler';
 
 type Dependencies = {

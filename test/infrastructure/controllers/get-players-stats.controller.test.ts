@@ -3,7 +3,7 @@ import request from 'supertest';
 import { createApp } from '../../../src/infrastructure/http/app';
 import { Result } from '../../../src/shared-kernel/fp/result-pattern/result';
 import type { Dependencies } from '../../../src/infrastructure/dependencies.container';
-import { GetPlayersStatsHandler } from '../../../src/application/get-players-stats.handler';
+import { GetPlayersStatsHandler } from '../../../src/application/get-players-stats/get-players-stats.handler';
 
 const makeTestDependencies = (getPlayersStatsHandler: GetPlayersStatsHandler) =>
   ({ getPlayersStatsHandler }) as Dependencies;
