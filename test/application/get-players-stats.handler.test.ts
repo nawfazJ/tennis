@@ -48,7 +48,7 @@ describe('getPlayersStatsHandler', () => {
     expect(result.value.bestWinRatioCountry).toBe('USA');
     expect(result.value.averageBMI).toBeCloseTo(
       (80000 / 1000 / (1.8 * 1.8) + 70000 / 1000 / (1.7 * 1.7)) / 2,
-      5,
+      2,
     );
     expect(result.value.medianHeight).toBe(175);
   });
@@ -89,7 +89,7 @@ describe('getPlayersStatsHandler', () => {
     expect(result.value.bestWinRatioCountry).toBeUndefined();
     expect(result.value.averageBMI).toBeCloseTo(
       (80000 / 1000 / (1.8 * 1.8) + 70000 / 1000 / (1.7 * 1.7)) / 2,
-      5,
+      2,
     );
     expect(result.value.medianHeight).toBe(175);
   });

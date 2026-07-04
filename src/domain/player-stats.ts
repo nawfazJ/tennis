@@ -6,6 +6,11 @@ type PlayersStats = Readonly<{
   medianHeight: number;
 }>;
 
+const round = (value: number, decimals = 2): number => {
+  const factor = 10 ** decimals;
+  return Math.round(value * factor) / factor;
+};
+
 const bestWinRatioCountry = (players: Player[]): string | undefined => {
   const totalsByCountry = new Map<string, { wins: number; matches: number }>();
 
@@ -37,8 +42,10 @@ const bmi = (player: Player): number => {
   return weightKg / (heightM * heightM);
 };
 
-const averageBMI = (players: Player[]): number =>
-  players.reduce((sum, player) => sum + bmi(player), 0) / players.length;
+const averageBMI = (players: Player[]): number => {
+  const average = players.reduce((sum, player) => sum + bmi(player), 0) / players.length;
+  return round(average);
+};
 
 const medianHeight = (players: Player[]): number => {
   const heights = [...players].map((player) => player.stats.height).sort((a, b) => a - b);
