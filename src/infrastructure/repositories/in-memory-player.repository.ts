@@ -1,13 +1,15 @@
 import type { PlayerRepository } from '../../domain/player.repository';
-import { type RawPlayer, toPlayer } from './player.mapper';
-import headToHead from './data/headTohead.json';
+import { initialPlayers } from './data/initial-players';
+import { Player } from '../../domain/player';
 
-const rawPlayers = headToHead.players as RawPlayer[];
-const players = rawPlayers.map(toPlayer);
+const players: Player[] = [...initialPlayers];
 
 const inMemoryPlayerRepository: PlayerRepository = {
   findAll: async () => players,
   findById: async (id) => players.find((player) => player.id === id),
+  add: async (player: Player) => {
+    players.push(player);
+  },
 };
 
 export { inMemoryPlayerRepository };

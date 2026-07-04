@@ -19,6 +19,9 @@ const makePlayer = (id: number): Player => ({
 const fakeRepository = (players: Player[]): PlayerRepository => ({
   findAll: async () => players,
   findById: async (id) => players.find((player) => player.id === id),
+  add: async (player) => {
+    players.push(player);
+  },
 });
 
 describe('getPlayerByIdHandler', () => {
