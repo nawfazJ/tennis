@@ -3,7 +3,7 @@ import request from 'supertest';
 import { createApp } from '../../../src/infrastructure/http/app';
 import { Result } from '../../../src/shared-kernel/fp/result-pattern/result';
 import type { Dependencies } from '../../../src/infrastructure/dependencies.container';
-import { GetPlayerByIdHandler } from '../../../src/application/get-player/get-player';
+import type { GetPlayerByIdHandler } from '../../../src/application/get-player/get-player';
 
 const makeTestDependencies = (getPlayerByIdHandler: GetPlayerByIdHandler) =>
   ({ getPlayerByIdHandler }) as Dependencies;
@@ -36,5 +36,19 @@ describe('GET /players/:id', () => {
 
     // Assert
     expect(response.status).toBe(404);
+  });
+
+  it('returns 400 when the id is not a positive integer', async () => {
+    // Arrange
+    const getPlayerByIdHandler = vi.fn();
+    const app = createApp(makeTestDependencies(getPlayerByIdHandler));
+
+    // Act
+    const response = await request(app).get('/players/abc');
+
+    // Assert
+    expect(response.status).toBe(400);
+    expect(response.body.error).toBe('InvalidRequestParams');
+    expect(getPlayerByIdHandler).not.toHaveBeenCalled();
   });
 });

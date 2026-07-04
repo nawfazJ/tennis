@@ -4,10 +4,9 @@ import type { AddPlayerHandler } from '../../application/add-player/add-player.h
 import type { AddPlayerCommand } from '../../application/add-player/add-player.command';
 
 const addPlayerController =
-  (addPlayerHandler: AddPlayerHandler) => async (req: Request, res: Response) => {
-    const command = req.body as AddPlayerCommand;
-
-    const result = await addPlayerHandler(command);
+  (addPlayerHandler: AddPlayerHandler) =>
+  async (req: Request<unknown, unknown, AddPlayerCommand>, res: Response) => {
+    const result = await addPlayerHandler(req.body);
 
     if (Result.isSuccess(result)) {
       res.status(201).json(result.value);

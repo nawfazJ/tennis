@@ -59,4 +59,20 @@ describe('POST /players', () => {
     expect(response.status).toBe(400);
     expect(response.body.error).toBe('PlayerAddingError');
   });
+
+  it('returns 400 when the request body is malformed', async () => {
+    // Arrange
+    const addPlayerHandler = vi.fn();
+    const app = createApp(makeTestDependencies(addPlayerHandler));
+
+    // Act
+    const response = await request(app)
+      .post('/players')
+      .send({ ...validCommand, sex: 'X' });
+
+    // Assert
+    expect(response.status).toBe(400);
+    expect(response.body.error).toBe('InvalidRequestBody');
+    expect(addPlayerHandler).not.toHaveBeenCalled();
+  });
 });
