@@ -17,6 +17,7 @@ const createPlayer = (id: number, rank: number): Player => ({
 
 const fakeRepository = (players: Player[]): PlayerRepository => ({
   findAll: async () => players,
+  findById: async (id) => players.find((player) => player.id === id),
 });
 
 describe('getBestPlayers use case', () => {
